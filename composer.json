@@ -1,0 +1,15 @@
+{
+    "name": "register-ch/register-api",
+    "description": "Register.ch public API for customers with direct activation",
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    }
+}
