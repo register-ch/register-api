@@ -2,9 +2,10 @@
 namespace RegisterCh\Tests\Handler;
 
 use RegisterCh\Handler\HmacHandler;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7;
+use PHPUnit\Framework\TestCase;
 
-class HmacHandlerTest extends \PHPUnit_Framework_TestCase
+class HmacHandlerTest extends TestCase
 {
     public function testSign()
     {
@@ -12,12 +13,18 @@ class HmacHandlerTest extends \PHPUnit_Framework_TestCase
         $apiSecret = 'abc';
 
         $hmacHandler = new HmacHandler($apiKey, $apiSecret);
-        $request = new Request('get', '/');
+        $request = new Psr7\Request('get', '/?skip=0&take=10', [], 'body');
         $nonce = uniqid();
         $time = time();
         $hmac = $this->invokeMethod($hmacHandler, 'sign', [$request, $nonce]);
 
-        $body = (string) $request->getBody()->getContents();
+        $path = (string) $request->getUri()->getPath();
+        $query = (string) $request->getUri()->getQuery();
+        $body = (string) $request->getBody();
+
+        if ($query !== '') {
+            $path .= '?' . $query;
+        }
 
         if ($body !== '') {
             $body = base64_encode(md5($body, true));
@@ -25,7 +32,7 @@ class HmacHandlerTest extends \PHPUnit_Framework_TestCase
 
         $valueToSign = $apiKey
             . strtolower($request->getMethod())
-            . urlencode($request->getUri()->getPath())
+            . urlencode($path)
             . $time
             . $nonce
             . $body;
