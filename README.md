@@ -1,7 +1,7 @@
 # Register.ch public API
 
 [![Build Status](https://travis-ci.org/register-ch/register-api.svg?branch=master)](https://travis-ci.org/register-ch/register-api)
-
+[![Coverage Status](https://coveralls.io/repos/github/register-ch/register-api/badge.svg?branch=master)](https://coveralls.io/github/register-ch/register-api?branch=master)
 
 The *Register.ch public API project* wraps around [Guzzle](http://docs.guzzlephp.org/en/latest/) and offers *HMAC authentication*. You can use the client to easily connect to the Register.ch public API endpoint.
 
